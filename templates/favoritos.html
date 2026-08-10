@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Favoritos</title>
+</head>
+<body>
+    <h1>Meus Favoritos</h1>
+
+<p>Adicione anúncios aos seus favoritos.</p>
+
+<form action="{{ url_for('favoritos') }}" method="post">
+    <input type="submit" value="Adicionar aos Favoritos">
+</form>
+</body>
+</html>

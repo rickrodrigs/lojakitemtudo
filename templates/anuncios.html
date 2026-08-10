@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comprar e vender - {{titulo}}</title>
+</head>
+<body>
+    <h1>Cadastro de Anúncio</h1>
+
+<form action="{{ url_for('cadanuncio') }}" method="post">
+
+    <p>
+        <label for="titulo">Título:</label>
+    </p>
+    <p>
+        <input type="text" id="titulo" name="titulo" required>
+    </p>
+
+    <p>
+        <label for="descricao">Descrição:</label>
+    </p>
+    <p>
+        <input type="text" id="descricao" name="descricao" required>
+    </p>
+
+    <p>
+        <label for="preco">Preço:</label>
+    </p>
+    <p>
+        <input type="number" id="preco" name="preco" step="0.01" required>
+    </p>
+
+    <p>
+        <input type="submit" value="Cadastrar">
+    </p>
+
+</form>
+</body>
+</html>

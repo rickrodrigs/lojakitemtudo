@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perguntas</title>
+</head>
+<body>
+    <h1>Perguntas sobre os anúncios</h1>
+
+<form action="{{ url_for('pergunta') }}" method="post">
+
+    <p>
+        <label for="pergunta">Digite sua pergunta:</label>
+    </p>
+
+    <p>
+        <input type="text" id="pergunta" name="pergunta" required>
+    </p>
+
+    <p>
+        <input type="submit" value="Enviar Pergunta">
+    </p>
+
+</form>
+</body>
+</html>
