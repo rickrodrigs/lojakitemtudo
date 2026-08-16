@@ -6,12 +6,151 @@
     <title>Compra</title>
 </head>
 <body>
-    <h1>Comprar Anúncio</h1>
+   {% extends "base.html" %}
 
-<p>Confirme a compra do anúncio.</p>
+{% block titulo %}Compras{% endblock %}
+
+{% block conteudo %}
+
+<h1>Registrar Compra</h1>
 
 <form action="{{ url_for('compra') }}" method="post">
-    <input type="submit" value="Confirmar Compra">
+
+    <p>
+        <label for="usuario_id">Usuário:</label>
+    </p>
+
+    <select id="usuario_id" name="usuario_id" required>
+
+        <option value="">Selecione um usuário</option>
+
+        {% for usuario in usuarios %}
+
+        <option value="{{ usuario.id }}">
+            {{ usuario.nome }}
+        </option>
+
+        {% endfor %}
+
+    </select>
+
+    <p>
+        <label for="anuncio_id">Anúncio:</label>
+    </p>
+
+    <select id="anuncio_id" name="anuncio_id" required>
+
+        <option value="">Selecione um anúncio</option>
+
+        {% for anuncio in anuncios %}
+
+        <option value="{{ anuncio.id }}">
+            {{ anuncio.titulo }} - R$ {{ anuncio.preco }}
+        </option>
+
+        {% endfor %}
+
+    </select>
+
+    <p>
+        <label for="quantidade">Quantidade:</label>
+    </p>
+
+    <p>
+        <input
+            type="number"
+            id="quantidade"
+            name="quantidade"
+            min="1"
+            value="1"
+            required
+        >
+    </p>
+
+    <p>
+        <label for="valor">Valor:</label>
+    </p>
+
+    <p>
+        <input
+            type="number"
+            id="valor"
+            name="valor"
+            step="0.01"
+            required
+        >
+    </p>
+
+    <p>
+        <input type="submit" value="Registrar Compra">
+    </p>
+
 </form>
+
+<hr>
+
+<h2>Compras cadastradas</h2>
+
+{% if compras %}
+
+<table border="1">
+
+    <tr>
+        <th>ID</th>
+        <th>Usuário</th>
+        <th>Anúncio</th>
+        <th>Quantidade</th>
+        <th>Valor</th>
+        <th>Ações</th>
+    </tr>
+
+    {% for compra in compras %}
+
+    <tr>
+
+        <td>{{ compra.id }}</td>
+
+        <td>{{ compra.usuario_id }}</td>
+
+        <td>{{ compra.anuncio_id }}</td>
+
+        <td>{{ compra.quantidade }}</td>
+
+        <td>R$ {{ compra.valor }}</td>
+
+        <td>
+
+            <a href="{{ url_for('editar_compra', id=compra.id) }}">
+                Editar
+            </a>
+
+            <form
+                action="{{ url_for('deletar_compra', id=compra.id) }}"
+                method="post"
+                style="display:inline;"
+                onsubmit="return confirm('Tem certeza que deseja excluir esta compra?');"
+            >
+
+                <button type="submit">
+                    Excluir
+                </button>
+
+            </form>
+
+        </td>
+
+    </tr>
+
+    {% endfor %}
+
+</table>
+
+{% else %}
+
+<p>Nenhuma compra cadastrada.</p>
+
+{% endif %}
+
+{% endblock %}
 </body>
 </html>

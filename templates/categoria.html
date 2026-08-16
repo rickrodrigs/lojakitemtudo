@@ -6,7 +6,13 @@
     <title>categoria</title>
 </head>
 <body>
-    <h1>Cadastro de Categoria</h1>
+   {% extends "base.html" %}
+
+{% block titulo %}Categorias{% endblock %}
+
+{% block conteudo %}
+
+<h1>Cadastro de Categoria</h1>
 
 <form action="{{ url_for('categoria') }}" method="post">
 
@@ -19,17 +25,58 @@
     </p>
 
     <p>
-        <label for="descricao">Descrição:</label>
-    </p>
-
-    <p>
-        <input type="text" id="descricao" name="descricao">
-    </p>
-
-    <p>
         <input type="submit" value="Cadastrar Categoria">
     </p>
 
 </form>
+
+<hr>
+
+<h2>Categorias cadastradas</h2>
+
+{% if categorias %}
+
+<table border="1">
+
+    <tr>
+        <th>ID</th>
+        <th>Nome</th>
+        <th>Ações</th>
+    </tr>
+
+    {% for categoria in categorias %}
+
+    <tr>
+        <td>{{ categoria.id }}</td>
+
+        <td>{{ categoria.nome }}</td>
+
+        <td>
+            <a href="{{ url_for('editar_categoria', id=categoria.id) }}">
+                Editar
+            </a>
+
+            <form action="{{ url_for('deletar_categoria', id=categoria.id) }}"
+                  method="post"
+                  style="display:inline;"
+                  onsubmit="return confirm('Tem certeza que deseja excluir esta categoria?');">
+
+                <button type="submit">Excluir</button>
+
+            </form>
+        </td>
+    </tr>
+
+    {% endfor %}
+
+</table>
+
+{% else %}
+
+<p>Nenhuma categoria cadastrada.</p>
+
+{% endif %}
+
+{% endblock %}
 </body>
 </html>

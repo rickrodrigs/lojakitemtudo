@@ -6,13 +6,20 @@
     <title>Comprar e vender - {{titulo}}</title>
 </head>
 <body>
-    <h1>Cadastro de Anúncio</h1>
+   {% extends "base.html" %}
 
-<form action="{{ url_for('cadanuncio') }}" method="post">
+{% block titulo %}Cadastro de Anúncio{% endblock %}
+
+{% block conteudo %}
+
+<h1>Cadastro de Anúncio</h1>
+
+<form action="{{ url_for('anuncios') }}" method="post">
 
     <p>
         <label for="titulo">Título:</label>
     </p>
+
     <p>
         <input type="text" id="titulo" name="titulo" required>
     </p>
@@ -20,21 +27,124 @@
     <p>
         <label for="descricao">Descrição:</label>
     </p>
+
     <p>
-        <input type="text" id="descricao" name="descricao" required>
+        <textarea id="descricao" name="descricao" required></textarea>
     </p>
 
     <p>
         <label for="preco">Preço:</label>
     </p>
+
     <p>
         <input type="number" id="preco" name="preco" step="0.01" required>
     </p>
 
     <p>
-        <input type="submit" value="Cadastrar">
+        <label for="usuario_id">Usuário:</label>
+    </p>
+
+    <p>
+        <select id="usuario_id" name="usuario_id" required>
+
+            <option value="">Selecione um usuário</option>
+
+            {% for usuario in usuarios %}
+                <option value="{{ usuario.id }}">
+                    {{ usuario.nome }}
+                </option>
+            {% endfor %}
+
+        </select>
+    </p>
+
+    <p>
+        <label for="categoria_id">Categoria:</label>
+    </p>
+
+    <p>
+        <select id="categoria_id" name="categoria_id" required>
+
+            <option value="">Selecione uma categoria</option>
+
+            {% for categoria in categorias %}
+                <option value="{{ categoria.id }}">
+                    {{ categoria.nome }}
+                </option>
+            {% endfor %}
+
+        </select>
+    </p>
+
+    <p>
+        <input type="submit" value="Cadastrar Anúncio">
     </p>
 
 </form>
+
+<hr>
+
+<h2>Anúncios cadastrados</h2>
+
+{% if anuncios %}
+
+<table border="1">
+
+    <tr>
+        <th>ID</th>
+        <th>Título</th>
+        <th>Descrição</th>
+        <th>Preço</th>
+        <th>Usuário</th>
+        <th>Categoria</th>
+        <th>Ações</th>
+    </tr>
+
+    {% for anuncio in anuncios %}
+
+    <tr>
+
+        <td>{{ anuncio.id }}</td>
+
+        <td>{{ anuncio.titulo }}</td>
+
+        <td>{{ anuncio.descricao }}</td>
+
+        <td>R$ {{ anuncio.preco }}</td>
+
+        <td>{{ anuncio.usuario_id }}</td>
+
+        <td>{{ anuncio.categoria_id }}</td>
+
+        <td>
+
+            <a href="{{ url_for('editar_anuncio', id=anuncio.id) }}">
+                Editar
+            </a>
+
+            <form
+                action="{{ url_for('deletar_anuncio', id=anuncio.id) }}"
+                method="post"
+                style="display:inline;"
+                onsubmit="return confirm('Tem certeza que deseja excluir este anúncio?');"
+            >
+                <button type="submit">Excluir</button>
+            </form>
+
+        </td>
+
+    </tr>
+
+    {% endfor %}
+
+</table>
+
+{% else %}
+
+<p>Nenhum anúncio cadastrado.</p>
+
+{% endif %}
+
+{% endblock %}
 </body>
 </html>

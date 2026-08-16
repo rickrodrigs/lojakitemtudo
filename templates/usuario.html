@@ -6,38 +6,58 @@
     <title>Comprar e vender - {{titulo}}</title>
 </head>
 <body>
-    <h1>Cadastro de Usuário</h1>
+      <h1>Cadastro de Usuário</h1> 
+    <form action="{{ url_for('caduser') }}" method="post"> 
 
-<form action="{{ url_for('caduser') }}" method="post">
+        <p> <label for="user">Username:</label> </p>
+        <p> <input type="text" id="user" name="user"> </p> 
 
-    <p>
-        <label for="user">Username:</label>
-    </p>
+        <p> <label for="email">Email:</label> </p> 
+        <p> <input type="email" id="email" name="email"> </p> 
 
-    <p>
-        <input type="text" id="user" name="user">
-    </p>
+        <p> <label for="senha">Senha:</label> </p> 
+        <p> <input type="password" id="senha" name="senha"> </p> 
 
-    <p>
-        <label for="email">Email:</label>
-    </p>
+        <p> <label for="end">Endereço:</label> </p>
+        <p> <input type="text" id="end" name="end"> </p>
 
-    <p>
-        <input type="email" id="email" name="email">
-    </p>
+        <p> <input type="submit" value="Cadastrar"> </p> 
+    </form>
 
-    <p>
-        <label for="senha">Senha:</label>
-    </p>
+    <h4>Usuários cadastrados:</h4>
+    <table>
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>Email</th>
+                <th>Senha</th>
+                <th>Endereço</th>
+                <th>Editar</th>
+                <th>Deletar</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for usuario in usuarios %}
+            <tr>
+                <td>{{ usuario.nome }}</td>
+                <td>{{ usuario.email }}</td>
+                <td>********</td>
+                <td>{{ usuario.end }}</td>
+                <td><a href="{{ url_for('editarusuario', id=usuario.id) }}">Editar</a></td>
+                <td>
+                    <form action="{{ url_for('deletarusuario', id=usuario.id) }}" method="post" style="display: inline;">
+                        <input type="submit" value="Deletar" onclick="return confirm('Tem certeza que deseja deletar este usuário?')">
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+<p>
+    <a href="{{ url_for('buscausuario') }}">
+        <button type="button">Buscar Usuário</button>
+    </a>
+</p>
 
-    <p>
-        <input type="password" id="senha" name="senha">
-    </p>
-
-    <p>
-        <input type="submit" value="Cadastrar">
-    </p>
-
-</form>
 </body>
 </html>

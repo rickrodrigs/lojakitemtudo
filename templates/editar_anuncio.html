@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Anúncio</title>
+</head>
+<body>
+{% extends "base.html" %}
+
+{% block titulo %}Editar Anúncio{% endblock %}
+
+{% block conteudo %}
+
+<h1>Editar Anúncio</h1>
+
+<form action="{{ url_for('editar_anuncio', id=anuncio.id) }}" method="post">
+
+    <p>
+        <label for="titulo">Título:</label>
+    </p>
+
+    <p>
+        <input
+            type="text"
+            id="titulo"
+            name="titulo"
+            value="{{ anuncio.titulo }}"
+            required
+        >
+    </p>
+
+    <p>
+        <label for="descricao">Descrição:</label>
+    </p>
+
+    <p>
+        <textarea
+            id="descricao"
+            name="descricao"
+            required
+        >{{ anuncio.descricao }}</textarea>
+    </p>
+
+    <p>
+        <label for="preco">Preço:</label>
+    </p>
+
+    <p>
+        <input
+            type="number"
+            id="preco"
+            name="preco"
+            step="0.01"
+            value="{{ anuncio.preco }}"
+            required
+        >
+    </p>
+
+    <p>
+        <label for="usuario_id">Usuário:</label>
+    </p>
+
+    <select id="usuario_id" name="usuario_id" required>
+
+        {% for usuario in usuarios %}
+
+        <option value="{{ usuario.id }}"
+            {% if usuario.id == anuncio.usuario_id %}selected{% endif %}>
+            {{ usuario.nome }}
+        </option>
+
+        {% endfor %}
+
+    </select>
+
+    <p>
+        <label for="categoria_id">Categoria:</label>
+    </p>
+
+    <select id="categoria_id" name="categoria_id" required>
+
+        {% for categoria in categorias %}
+
+        <option value="{{ categoria.id }}"
+            {% if categoria.id == anuncio.categoria_id %}selected{% endif %}>
+            {{ categoria.nome }}
+        </option>
+
+        {% endfor %}
+
+    </select>
+
+    <p>
+        <input type="submit" value="Salvar Alterações">
+    </p>
+
+</form>
+
+<p>
+    <a href="{{ url_for('anuncios') }}">Voltar para anúncios</a>
+</p>
+
+{% endblock %}
+</body>
+</html>

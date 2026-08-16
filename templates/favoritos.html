@@ -6,12 +6,116 @@
     <title>Favoritos</title>
 </head>
 <body>
-    <h1>Meus Favoritos</h1>
+    {% extends "base.html" %}
 
-<p>Adicione anúncios aos seus favoritos.</p>
+{% block titulo %}Favoritos{% endblock %}
+
+{% block conteudo %}
+
+<h1>Adicionar aos Favoritos</h1>
 
 <form action="{{ url_for('favoritos') }}" method="post">
-    <input type="submit" value="Adicionar aos Favoritos">
+
+    <p>
+        <label for="usuario_id">Usuário:</label>
+    </p>
+
+    <select id="usuario_id" name="usuario_id" required>
+
+        <option value="">Selecione um usuário</option>
+
+        {% for usuario in usuarios %}
+
+        <option value="{{ usuario.id }}">
+            {{ usuario.nome }}
+        </option>
+
+        {% endfor %}
+
+    </select>
+
+    <p>
+        <label for="anuncio_id">Anúncio:</label>
+    </p>
+
+    <select id="anuncio_id" name="anuncio_id" required>
+
+        <option value="">Selecione um anúncio</option>
+
+        {% for anuncio in anuncios %}
+
+        <option value="{{ anuncio.id }}">
+            {{ anuncio.titulo }}
+        </option>
+
+        {% endfor %}
+
+    </select>
+
+    <p>
+        <input type="submit" value="Adicionar aos Favoritos">
+    </p>
+
 </form>
+
+<hr>
+
+<h2>Favoritos cadastrados</h2>
+
+{% if favoritos %}
+
+<table border="1">
+
+    <tr>
+        <th>ID</th>
+        <th>Usuário</th>
+        <th>Anúncio</th>
+        <th>Ações</th>
+    </tr>
+
+    {% for favorito in favoritos %}
+
+    <tr>
+
+        <td>{{ favorito.id }}</td>
+
+        <td>{{ favorito.usuario_id }}</td>
+
+        <td>{{ favorito.anuncio_id }}</td>
+
+        <td>
+
+            <a href="{{ url_for('editar_favorito', id=favorito.id) }}">
+                Editar
+            </a>
+
+            <form
+                action="{{ url_for('deletar_favorito', id=favorito.id) }}"
+                method="post"
+                style="display:inline;"
+                onsubmit="return confirm('Tem certeza que deseja excluir este favorito?');"
+            >
+
+                <button type="submit">
+                    Excluir
+                </button>
+
+            </form>
+
+        </td>
+
+    </tr>
+
+    {% endfor %}
+
+</table>
+
+{% else %}
+
+<p>Nenhum favorito cadastrado.</p>
+
+{% endif %}
+
+{% endblock %}
 </body>
 </html>

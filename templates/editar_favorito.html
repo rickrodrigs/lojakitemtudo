@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Favorito</title>
+</head>
+<body>
+    {% extends "base.html" %}
+
+{% block titulo %}Editar Favorito{% endblock %}
+
+{% block conteudo %}
+
+<h1>Editar Favorito</h1>
+
+<form action="{{ url_for('editar_favorito', id=favorito.id) }}" method="post">
+
+    <p>
+        <label for="usuario_id">Usuário:</label>
+    </p>
+
+    <select id="usuario_id" name="usuario_id" required>
+
+        {% for usuario in usuarios %}
+
+        <option
+            value="{{ usuario.id }}"
+            {% if usuario.id == favorito.usuario_id %}selected{% endif %}
+        >
+            {{ usuario.nome }}
+        </option>
+
+        {% endfor %}
+
+    </select>
+
+    <p>
+        <label for="anuncio_id">Anúncio:</label>
+    </p>
+
+    <select id="anuncio_id" name="anuncio_id" required>
+
+        {% for anuncio in anuncios %}
+
+        <option
+            value="{{ anuncio.id }}"
+            {% if anuncio.id == favorito.anuncio_id %}selected{% endif %}
+        >
+            {{ anuncio.titulo }}
+        </option>
+
+        {% endfor %}
+
+    </select>
+
+    <p>
+        <input type="submit" value="Salvar Alterações">
+    </p>
+
+</form>
+
+<p>
+    <a href="{{ url_for('favoritos') }}">
+        Voltar para favoritos
+    </a>
+</p>
+
+{% endblock %}
+</body>
+</html>

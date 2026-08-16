@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Pergunta</title>
+</head>
+<body>
+    {% extends "base.html" %}
+
+{% block titulo %}Editar Pergunta{% endblock %}
+
+{% block conteudo %}
+
+<h1>Editar Pergunta</h1>
+
+<form action="{{ url_for('editar_pergunta', id=pergunta.id) }}" method="post">
+
+    <p>
+        <label for="texto">Pergunta:</label>
+    </p>
+
+    <p>
+        <textarea
+            id="texto"
+            name="texto"
+            required
+        >{{ pergunta.texto }}</textarea>
+    </p>
+
+    <p>
+        <label for="resposta">Resposta:</label>
+    </p>
+
+    <p>
+        <textarea
+            id="resposta"
+            name="resposta"
+        >{{ pergunta.resposta }}</textarea>
+    </p>
+
+    <p>
+        <label for="usuario_id">Usuário:</label>
+    </p>
+
+    <select id="usuario_id" name="usuario_id" required>
+
+        {% for usuario in usuarios %}
+
+        <option
+            value="{{ usuario.id }}"
+            {% if usuario.id == pergunta.usuario_id %}selected{% endif %}
+        >
+            {{ usuario.nome }}
+        </option>
+
+        {% endfor %}
+
+    </select>
+
+    <p>
+        <label for="anuncio_id">Anúncio:</label>
+    </p>
+
+    <select id="anuncio_id" name="anuncio_id" required>
+
+        {% for anuncio in anuncios %}
+
+        <option
+            value="{{ anuncio.id }}"
+            {% if anuncio.id == pergunta.anuncio_id %}selected{% endif %}
+        >
+            {{ anuncio.titulo }}
+        </option>
+
+        {% endfor %}
+
+    </select>
+
+    <p>
+        <input type="submit" value="Salvar Alterações">
+    </p>
+
+</form>
+
+<p>
+    <a href="{{ url_for('pergunta') }}">
+        Voltar para perguntas
+    </a>
+</p>
+
+{% endblock %}
+</body>
+</html>

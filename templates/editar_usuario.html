@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Usuário</title>
+</head>
+<body>
+      <h1>Editar Usuário</h1>
+
+    <form action="{{ url_for('editarusuario', id=usuario.id) }}" method="POST">
+
+        <p>
+            <label>Username:</label>
+            <input type="text" name="user" value="{{ usuario.nome }}">
+        </p>
+
+        <p>
+            <label>Email:</label>
+            <input type="email" name="email" value="{{ usuario.email }}">
+        </p>
+
+        <p>
+            <label>Senha:</label>
+            <input type="text" name="senha" value="{{ usuario.senha }}">
+        </p>
+
+        <p>
+            <label>Endereço:</label>
+            <input type="text" name="end" value="{{ usuario.end }}">
+        </p>
+
+        <button type="submit">Salvar alterações</button>
+
+    </form>
+
+    <a href="{{ url_for('usuario') }}">Voltar</a>
+</body>
+</html>

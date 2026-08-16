@@ -6,22 +6,151 @@
     <title>Perguntas</title>
 </head>
 <body>
-    <h1>Perguntas sobre os anúncios</h1>
+  {% extends "base.html" %}
+
+{% block titulo %}Perguntas{% endblock %}
+
+{% block conteudo %}
+
+<h1>Cadastrar Pergunta</h1>
 
 <form action="{{ url_for('pergunta') }}" method="post">
 
     <p>
-        <label for="pergunta">Digite sua pergunta:</label>
+        <label for="texto">Pergunta:</label>
     </p>
 
     <p>
-        <input type="text" id="pergunta" name="pergunta" required>
+        <textarea
+            id="texto"
+            name="texto"
+            required
+        ></textarea>
     </p>
 
     <p>
-        <input type="submit" value="Enviar Pergunta">
+        <label for="resposta">Resposta:</label>
+    </p>
+
+    <p>
+        <textarea
+            id="resposta"
+            name="resposta"
+        ></textarea>
+    </p>
+
+    <p>
+        <label for="usuario_id">Usuário:</label>
+    </p>
+
+    <select id="usuario_id" name="usuario_id" required>
+
+        <option value="">Selecione um usuário</option>
+
+        {% for usuario in usuarios %}
+
+        <option value="{{ usuario.id }}">
+            {{ usuario.nome }}
+        </option>
+
+        {% endfor %}
+
+    </select>
+
+    <p>
+        <label for="anuncio_id">Anúncio:</label>
+    </p>
+
+    <select id="anuncio_id" name="anuncio_id" required>
+
+        <option value="">Selecione um anúncio</option>
+
+        {% for anuncio in anuncios %}
+
+        <option value="{{ anuncio.id }}">
+            {{ anuncio.titulo }}
+        </option>
+
+        {% endfor %}
+
+    </select>
+
+    <p>
+        <input type="submit" value="Cadastrar Pergunta">
     </p>
 
 </form>
+
+<hr>
+
+<h2>Perguntas cadastradas</h2>
+
+{% if perguntas %}
+
+<table border="1">
+
+    <tr>
+        <th>ID</th>
+        <th>Pergunta</th>
+        <th>Resposta</th>
+        <th>Usuário</th>
+        <th>Anúncio</th>
+        <th>Ações</th>
+    </tr>
+
+    {% for pergunta in perguntas %}
+
+    <tr>
+
+        <td>{{ pergunta.id }}</td>
+
+        <td>{{ pergunta.texto }}</td>
+
+        <td>
+            {% if pergunta.resposta %}
+                {{ pergunta.resposta }}
+            {% else %}
+                Ainda não respondida
+            {% endif %}
+        </td>
+
+        <td>{{ pergunta.usuario_id }}</td>
+
+        <td>{{ pergunta.anuncio_id }}</td>
+
+        <td>
+
+            <a href="{{ url_for('editar_pergunta', id=pergunta.id) }}">
+                Editar
+            </a>
+
+            <form
+                action="{{ url_for('deletar_pergunta', id=pergunta.id) }}"
+                method="post"
+                style="display:inline;"
+                onsubmit="return confirm('Tem certeza que deseja excluir esta pergunta?');"
+            >
+
+                <button type="submit">
+                    Excluir
+                </button>
+
+            </form>
+
+        </td>
+
+    </tr>
+
+    {% endfor %}
+
+</table>
+
+{% else %}
+
+<p>Nenhuma pergunta cadastrada.</p>
+
+{% endif %}
+
+{% endblock %}
 </body>
 </html>
